@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import FilterBar from "./components/FilterBar.jsx";
+import Header from "./components/Header.jsx";
+import Shops from "./components/Shops.jsx";
+import styles from "./styles/modules/app.module.scss";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="container">
+        <Header>SHOP LIST</Header>
+        <div className={styles.app__wrapper}>
+          <FilterBar />
+          <Shops />
+        </div>
+      </div>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            fontSize: "1.5rem",
+          },
+        }}
+      />
+    </>
   );
-}
+};
 
 export default App;
