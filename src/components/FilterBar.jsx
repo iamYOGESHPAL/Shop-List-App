@@ -12,6 +12,7 @@ const FilterBar = () => {
   const [areaFilter, setAreaFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
+
   const dispatch = useDispatch();
 
   useEffect(() => {

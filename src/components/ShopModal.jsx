@@ -21,6 +21,10 @@ const ShopModal = ({ type, modalOpen, setModalOpen, oldShop }) => {
       setName(oldShop.name);
       setArea(oldShop.area);
       setCategory(oldShop.category);
+      setOpeningDate(formatDate(oldShop.openingDate));
+      if (oldShop.closingDate !== "Currently Open") {
+        setClosingDate(formatDate(oldShop.closingDate));
+      }
     } else {
       setName("");
       setArea("");
@@ -33,6 +37,13 @@ const ShopModal = ({ type, modalOpen, setModalOpen, oldShop }) => {
   const reformatDate = (dateStr) => {
     var dArr = dateStr.split("-"); // ex input: "2010-01-18"
     return dArr[2] + "/" + dArr[1] + "/" + dArr[0]; //ex output: "18/01/2010"
+  };
+  const formatDate = (dateStr) => {
+    if (dateStr === "Currently Open") {
+      return "Currently Open";
+    }
+    var dArr = dateStr.split("/"); // ex input: "18/01/2010"
+    return `${dArr[2]}-${dArr[1]}-${dArr[0]}`;
   };
 
   const handleSubmit = (e) => {
@@ -60,8 +71,8 @@ const ShopModal = ({ type, modalOpen, setModalOpen, oldShop }) => {
           oldShop.name !== name ||
           oldShop.area !== area ||
           oldShop.category !== category ||
-          oldShop.openingDate !== openingDate ||
-          oldShop.closingDate !== closingDate
+          oldShop.openingDate !== reformatDate(openingDate) ||
+          oldShop.closingDate !== formatDate(closingDate)
         ) {
           dispatch(
             updateShop({

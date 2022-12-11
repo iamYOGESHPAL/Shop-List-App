@@ -21,7 +21,8 @@ export const shopSlice = createSlice({
   initialState: initialValue,
   reducers: {
     addShop: (state, action) => {
-      state.filteredShopList = state.shopList.push(action.payload);
+      state.shopList.push(action.payload);
+      state.filteredShopList = state.shopList;
       const shopList = window.localStorage.getItem("shopList");
       if (shopList) {
         const shopListArr = JSON.parse(shopList);
@@ -73,6 +74,18 @@ export const shopSlice = createSlice({
     },
     updateFilter: (state, action) => {
       const { statusFilter, areaFilter, categoryFilter } = action.payload;
+      const areaOrCategoryFilter = () => {
+        if (areaFilter !== "all") {
+          state.filteredShopList = state.filteredShopList.filter(
+            (item) => item.area === areaFilter
+          );
+        }
+        if (categoryFilter !== "all") {
+          state.filteredShopList = state.filteredShopList.filter(
+            (item) => item.category === categoryFilter
+          );
+        }
+      };
       if (state.filteredShopList.length <= 0) {
         state.filteredShopList = state.shopList;
       }
@@ -106,17 +119,11 @@ export const shopSlice = createSlice({
             state.filteredShopList = closedShops;
           }
         });
+      } else {
+        state.filteredShopList = state.shopList;
+        areaOrCategoryFilter();
       }
-      if (areaFilter !== "all") {
-        state.filteredShopList = state.filteredShopList.filter(
-          (item) => item.area === areaFilter
-        );
-      }
-      if (categoryFilter !== "all") {
-        state.filteredShopList = state.filteredShopList.filter(
-          (item) => item.category === categoryFilter
-        );
-      }
+      areaOrCategoryFilter();
     },
   },
 });
